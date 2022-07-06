@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, SafeAreaView } from 'react-native';
 import Splash from './src/screens/Splash';
+
+
+import Registration from './src/screens/Registration';
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -17,12 +20,7 @@ export default function App() {
       {
         showSplash && <Splash />
       }
-      {
-        !showSplash &&
-        <View style={styles.container}>
-          <Text>I am react App</Text>
-        </View>
-      }
+      
     </>
   );
 }
@@ -30,7 +28,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
     border: '10px solid red'
