@@ -1,27 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ImageBackground, SafeAreaView } from 'react-native';
+import './src/Ignore_Warnings/ignoreWarnings';
+import React, { useState, useEffect, useCallback } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { StyleSheet } from 'react-native';
+
 import Splash from './src/screens/Splash';
-
-
+import Login from './src/screens/Login';
 import Registration from './src/screens/Registration';
+import Courses from './src/screens/Courses/Courses';
+
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [showSplash, setShowSplash] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setShowSplash(false)
-    }, 2000);
-  }, [])
-
   return (
-    <>
-      {
-        showSplash && <Splash />
-      }
-      
-    </>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen
+          name='Login'
+          component={Login}
+          options={{ title: 'Login existed user' }}
+        />
+        <Stack.Screen
+          name='Registration'
+          component={Registration}
+          options={{ title: 'Register a new user' }}
+        />
+        <Stack.Screen
+          name='Courses'
+          component={Courses}
+          options={{ title: 'Courses' }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

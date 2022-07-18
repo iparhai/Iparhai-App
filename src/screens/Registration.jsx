@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, StatusBar, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native'
 import { Form, Item, Input, Icon, Radio, Content, ListItem, Button } from 'native-base'
 
-function Registration() {
+function Registration({ navigation }) {
 
     const goBack = () => {
-        Alert.alert('Back Going...')
+        navigation.navigate('Login')
     }
     const goLogin = () => {
-        Alert.alert('Login Going...')
+        navigation.navigate('Login')
     }
 
     return (
         <ImageBackground
-            source={require('../screen_images/images/login.png')}
+            source={require('../screen_images/images/learning_backgroud.png')}
             style={styles.container}
         >
             <View style={styles.navBar}>
@@ -106,7 +106,9 @@ function Registration() {
                     <View style={styles.navbarText1}>
                         <Item rounded style={{ backgroundColor: '#072A52' }}>
                             <Button transparent style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-                                <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>CREATE ACCOUNT</Text>
+                                <TouchableOpacity onPress={()=>navigation.navigate('Courses')}>
+                                    <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>CREATE ACCOUNT</Text>
+                                </TouchableOpacity>
                             </Button>
                         </Item>
                     </View>
