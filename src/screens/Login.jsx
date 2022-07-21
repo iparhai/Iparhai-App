@@ -5,53 +5,106 @@ import * as Font from 'expo-font';
 import { Container, Header, Content, Item, Input, Button } from 'native-base';
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native';
 import { Icon } from 'native-base';
-
-
 import Splash from './Splash';
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useSelector, useDispatch } from 'react-redux'
+import { login, logout } from '../actions/index'
+import axios from 'axios';
 
 
-export default function Login({ navigation }) {
+
+function Login({ navigation }) {
+
+    const [id, setId] = useState('');
+    const [pwd, setPwd] = useState('');
+
     const [appIsReady, setAppIsReady] = useState(false);
 
-    useEffect(() => {
-      async function prepare() {
-        try {
-          // Pre-load fonts, make any API calls you need to do here
-          await Font.loadAsync(Entypo.font);
-          // Artificially delay for two seconds to simulate a slow loading
-          // experience. Please remove this if you copy and paste the code!
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        } catch (e) {
-          console.warn(e);
-        } finally {
-          // Tell the application to render
-          setAppIsReady(true);
+    const authenticateUser = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+
+
+    const [loginMessage, setLoginMessage] = useState('');
+
+    const myStorage = async (msg) => {
+        const keys = await AsyncStorage.getAllKeys();
+        const stores = await AsyncStorage.multiGet(keys);
+        const data = stores.reduce(
+            (acc, row) => ({ ...acc, [row[0]]: row[1] }),
+            {}
+        );
+        console.log('in local storage');
+        const currData = JSON.parse(data.user)
+        console.log(currData.message);
+        if (currData.message === 'Login Success...'){
+            Alert.alert(currData.message)
+            setTimeout(() => {
+                navigation.navigate('Courses')
+            }, 1000);
         }
-      }
-  
-      prepare();
+        else{
+            Alert.alert(currData.message)
+            navigation.navigate('Login')
+        }
+    }
+    useEffect(() => {
+        async function prepare() {
+            try {
+                // Pre-load fonts, make any API calls you need to do here
+                await Font.loadAsync(Entypo.font);
+                // Artificially delay for two seconds to simulate a slow loading
+                // experience. Please remove this if you copy and paste the code!
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            } catch (e) {
+                console.warn(e);
+            } finally {
+                // Tell the application to render
+                setAppIsReady(true);
+            }
+        }
+
+        prepare();
     }, []);
-  
+
     const onLayoutRootView = useCallback(async () => {
-      if (appIsReady) {
-        // This tells the splash screen to hide immediately! If we call this after
-        // `setAppIsReady`, then we may see a blank screen while the app is
-        // loading its initial state and rendering its first pixels. So instead,
-        // we hide the splash screen once we know the root view has already
-        // performed layout.
-        await SplashScreen.hideAsync();
-      }
+        if (appIsReady) {
+            // This tells the splash screen to hide immediately! If we call this after
+            // `setAppIsReady`, then we may see a blank screen while the app is
+            // loading its initial state and rendering its first pixels. So instead,
+            // we hide the splash screen once we know the root view has already
+            // performed layout.
+            await SplashScreen.hideAsync();
+        }
     }, [appIsReady]);
-  
+
     if (!appIsReady) {
-      return null;
+        return null;
+    }
+
+
+    const handleLogin = () => {
+        let user = {
+            id: id,
+            pwd: pwd
+        }
+        dispatch(login(user))
+            .then(res => {
+                setLoginMessage(res.message);
+                myStorage()
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+        // console.log(loginMessage)
+        // navigation.navigate('Courses')
     }
 
     return (
         <ImageBackground source={require("../screen_images/images/login.png")}
             style={styles.container}
-            onLayout = {onLayoutRootView}
+            onLayout={onLayoutRootView}
         >
             <View style={styles.headerlogin}>
                 <View style={styles.logoimage}>
@@ -71,17 +124,25 @@ export default function Login({ navigation }) {
                 <View style={{ width: '100%', marginBottom: 20, paddingLeft: 5 }}>
                     <Item rounded>
                         <Icon active name='mail' />
-                        <Input placeholder='Email Address' />
+                        <Input
+                            placeholder='Email Address'
+                            value={id}
+                            onChangeText={(text) => setId(text)}
+                        />
                     </Item>
                 </View>
                 <View style={{ width: '100%', paddingLeft: 5 }}>
                     <Item rounded>
                         <Icon active name='key' />
-                        <Input placeholder='Password' />
+                        <Input
+                            placeholder='Password'
+                            value={pwd}
+                            onChangeText={(text) => setPwd(text)}
+                        />
                     </Item>
                 </View>
                 <View style={styles.buttonview} >
-                    <Button style={{ width: '30%', backgroundColor: '#072A52', borderRadius: 10, paddingLeft: '10%' }}><Text style={{ color: 'white', fontWeight: 'bold' }}>LOGIN</Text></Button>
+                    <Button onPress={() => handleLogin()} style={{ width: '30%', backgroundColor: '#072A52', borderRadius: 10, paddingLeft: '10%' }}><Text style={{ color: 'white', fontWeight: 'bold' }}>LOGIN</Text></Button>
                     <TouchableOpacity>
                         <Image style={{ marginLeft: 10 }} source={require("../screen_images/images/google.png")}></Image>
                     </TouchableOpacity>
@@ -175,3 +236,5 @@ const styles = StyleSheet.create({
 
     }
 });
+
+export default Login;

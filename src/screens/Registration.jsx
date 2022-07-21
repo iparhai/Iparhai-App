@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, StatusBar, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native'
 import { Form, Item, Input, Icon, Radio, Content, ListItem, Button } from 'native-base'
+import axios from 'axios';
+
 
 function Registration({ navigation }) {
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {Alert, View, Text, StyleSheet, SafeAreaView, StatusBar, ScrollView, Animated, useWindowDimensions, ImageBackground, Image } from 'react-native';
-import {Button} from 'native-base'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert, View, Text, StyleSheet, SafeAreaView, StatusBar, ScrollView, Animated, useWindowDimensions, ImageBackground, Image } from 'react-native';
+import { Button } from 'native-base'
 import { ProgressBar, MD3Colors } from 'react-native-paper';
 
 import screenBg from '../../screen_images/images/learning_backgroud.png';
@@ -8,9 +9,10 @@ import screenBg from '../../screen_images/images/learning_backgroud.png';
 const images = new Array(6).fill('https://images.unsplash.com/photo-1556740749-887f6717d7e4');
 console.log(images);
 
-const Courses = () => {
+const Courses = ({navigation}) => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+
 
     return (
         <ImageBackground source={require('../../screen_images/images/learning_backgroud.png')} style={styles.container}>
@@ -44,7 +46,7 @@ const Courses = () => {
                                     <View style={styles.innerCard1}>
                                         <View style={styles.innerCrad2}>
                                             <Image
-                                                style={{ borderRadius: 15 , borderColor : 'rgba(0,0,0,0.1)', borderWidth : 1}}
+                                                style={{ borderRadius: 15, borderColor: 'rgba(0,0,0,0.1)', borderWidth: 1 }}
                                                 source={require('../../screen_images/images/CoursesCard.jpg')}
                                             />
                                         </View>
@@ -69,10 +71,10 @@ const Courses = () => {
                                             }}>
                                                 <View style={styles.column}>
                                                     <Text style={styles.column__percentage}>56%</Text>
-                                                    <ProgressBar progress={0.5} color='#548c2f'/>
+                                                    <ProgressBar progress={0.5} color='#548c2f' />
                                                 </View>
-                                                <View style={{flexGrow : 5}}>
-                                                    <Button style={styles.btn} onPress={()=>Alert.alert('Hii')}>
+                                                <View style={{ flexGrow: 5 }}>
+                                                    <Button style={styles.btn} onPress={() => Alert.alert('Hii')}>
                                                         <Text style={styles.btn__text}>View Course</Text>
                                                     </Button>
                                                 </View>
@@ -154,8 +156,8 @@ const styles = StyleSheet.create({
         // marginTop : '1%'
     },
     innercard3: {
-        justifyContent : 'space-around',
-        width : '60%'
+        justifyContent: 'space-around',
+        width: '60%'
     },
     icon: {
         // borderColor : 'red',
@@ -184,23 +186,23 @@ const styles = StyleSheet.create({
     column: {
         // borderColor: 'blue',
         // borderWidth: 1,
-        width : '50%',
-        paddingLeft : 1,
-        paddingRight : 10,
+        width: '50%',
+        paddingLeft: 1,
+        paddingRight: 10,
     },
-    column__percentage : {
-        color : '#548c2f',
-        fontWeight : 'bold'
+    column__percentage: {
+        color: '#548c2f',
+        fontWeight: 'bold'
     },
-    btn : {
-        backgroundColor : '#072A52',
-        borderRadius : 10,
-        paddingLeft : 5,
-        paddingRight : 5
+    btn: {
+        backgroundColor: '#072A52',
+        borderRadius: 10,
+        paddingLeft: 5,
+        paddingRight: 5
     },
-    btn__text : {
-        color : 'white'
-    }, 
+    btn__text: {
+        color: 'white'
+    },
     indicatorContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
