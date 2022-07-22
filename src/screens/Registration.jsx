@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, StatusBar, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native'
-import { Form, Item, Input, Icon, Radio, Content, ListItem, Button } from 'native-base'
+import { Form, Item, Input, Icon, Radio, Content, ListItem, Button } from 'native-base';
+import {DateTimePickerAndroid} from '@react-native-community/datetimepicker'
 import axios from 'axios';
 
 
+
 function Registration({ navigation }) {
+    const [hide, setHide] = useState(false);
+    const [hide2, setHide2] = useState(false);
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [verifyPassword, setVerifyPassword] = useState('');
+    const [country, setCountry] = useState('')
+    const [city, setCity] = useState('');
+    const [gender, setGender] = useState('');
 
     const goBack = () => {
         navigation.navigate('Login')
@@ -13,6 +25,10 @@ function Registration({ navigation }) {
         navigation.navigate('Login')
     }
 
+
+    useEffect(() => {
+        console.log(email)
+    }, [email])
     return (
         <ImageBackground
             source={require('../screen_images/images/learning_backgroud.png')}
@@ -45,13 +61,13 @@ function Registration({ navigation }) {
                     <View style={styles.navbarText1}>
                         <Item rounded>
                             <Icon active name='person' />
-                            <Input placeholder='Name' />
+                            <Input placeholder='Name' onChangeText={(e) => setName(e)} />
                         </Item>
                     </View>
                     <View style={styles.navbarText1}>
                         <Item rounded>
                             <Icon active name='mail' />
-                            <Input placeholder='Email Address' />
+                            <Input placeholder='Email Address' onChangeText={(e) => setEmail(e)} />
                         </Item>
                     </View>
                 </View>
@@ -59,15 +75,15 @@ function Registration({ navigation }) {
                     <View style={styles.navbarText1}>
                         <Item rounded>
                             <Icon active name='key' />
-                            <Input placeholder='Password' />
-                            <Icon active name='eye' />
+                            <Input secureTextEntry={hide} placeholder='Password' onChangeText={(e) => setPassword(e)} />
+                            <Icon active name={!hide ? 'eye' : 'eye-off'} onPress={() => setHide(!hide)} />
                         </Item>
                     </View>
                     <View style={styles.navbarText1}>
                         <Item rounded>
                             <Icon active name='key' />
-                            <Input placeholder='Re Enter Password' />
-                            <Icon active name='eye' />
+                            <Input secureTextEntry={hide2} placeholder='Re-Enter Password' onChangeText={(e) => setVerifyPassword(e)} />
+                            <Icon active name={!hide2 ? 'eye' : 'eye-off'} onPress={() => setHide2(!hide2)} />
                         </Item>
                     </View>
                 </View>
@@ -75,19 +91,20 @@ function Registration({ navigation }) {
                     <View style={styles.navbarText1}>
                         <Item rounded>
                             <Icon active name='location' />
-                            <Input placeholder='Country' />
+                            <Input placeholder='Country' onChangeText={(e) => setCountry(e)} />
                         </Item>
                     </View>
                     <View style={styles.navbarText1}>
                         <Item rounded>
                             <Icon active name='location' />
-                            <Input placeholder='City' />
+                            <Input placeholder='City' onChangeText={(e) => setCity(e)} />
                         </Item>
                     </View>
                     <View style={styles.navbarText1}>
                         <Item rounded>
                             <Icon active name='calendar' />
-                            <Input placeholder='Date' />
+                            {/* <Input  placeholder='Date' onChangeText={(e)=>setDob(e)} /> */}
+                            
                         </Item>
                     </View>
                 </View>
@@ -108,7 +125,7 @@ function Registration({ navigation }) {
                     <View style={styles.navbarText1}>
                         <Item rounded style={{ backgroundColor: '#072A52' }}>
                             <Button transparent style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-                                <TouchableOpacity onPress={()=>navigation.navigate('Courses')}>
+                                <TouchableOpacity onPress={() => navigation.navigate('Courses')}>
                                     <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>CREATE ACCOUNT</Text>
                                 </TouchableOpacity>
                             </Button>
@@ -152,6 +169,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-evenly',
         padding: 20
+    },
+    datePickerStyle: {
+        width: 230,
     },
     navBar: {
         // borderColor: 'blue',
