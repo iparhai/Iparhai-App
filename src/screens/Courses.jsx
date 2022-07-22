@@ -3,19 +3,72 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert, View, Text, StyleSheet, SafeAreaView, StatusBar, ScrollView, Animated, useWindowDimensions, ImageBackground, Image } from 'react-native';
 import { Button } from 'native-base'
 import { ProgressBar, MD3Colors } from 'react-native-paper';
+import { Container, Header, Item, Input, Icon } from 'native-base';
 
-import screenBg from '../../screen_images/images/learning_backgroud.png';
+
+import screenBg from '../screen_images/images/learning_backgroud.png';
+import Carousel, { Pagination } from "react-native-snap-carousel";
+import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from "../Text_Animations/carotext";
+
+const data = [
+    {
+        imgUrl: ""
+    },
+    {
+        imgUrl: "https://picsum.photos/id/10/200/300",
+
+    },
+    {
+        imgUrl: "https://picsum.photos/id/12/200/300",
+    },
+];
 
 const images = new Array(6).fill('https://images.unsplash.com/photo-1556740749-887f6717d7e4');
 console.log(images);
 
+
+   
 const Courses = ({navigation}) => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const { width: windowWidth, height: windowHeight } = useWindowDimensions();
-
+    const [index, setIndex] = React.useState(0);
+    const isCarousel = React.useRef(null);
 
     return (
-        <ImageBackground source={require('../../screen_images/images/learning_backgroud.png')} style={styles.container}>
+        <ImageBackground style={styles.container} source={require('../screen_images/images/learning_backgroud.png')}>
+            <View style={{
+                flexDirection: "row", justifyContent: "space-around"
+            }}>
+                <View style={{ flexGrow: 3 }}>
+                    <Image style={{ width: 200, height: 30, objectFit: 'fill', marginTop: 'auto', marginBottom: 'auto', marginLeft: 4 }} source={require('../screen_images/images/splash_logo.png')}>
+                    </Image>
+                </View>
+                <View style={{}}>
+                    <Item rounded style={{ width: 350, paddingBottom: 5, height: 50 }}>
+
+                        <Input style={{ paddingLeft: 15 }} placeholder='Search Courses' />
+                        <Icon style={{ paddingTop: 7 }} name="ios-search" />
+                    </Item>
+                </View>
+                <View style={{}}>
+                    <Button style={{ backgroundColor: "green", paddingLeft: 7, paddingRight: 7, borderRadius: 20, marginTop: 'auto', marginBottom: 'auto', marginLeft: 4 }}>
+                        <Text style={{ color: "white", fontWeight: "bold" }}>Enroll Courses</Text>
+                    </Button>
+                </View>
+            </View>
+            <View style={styles.scrollContainer}>
+                <Carousel
+      s              layout="tinder"
+                    layoutCardOffset={9}
+                    ref={isCarousel}
+                    data={data}
+                    renderItem={CarouselCardItem}
+                    sliderWidth={SLIDER_WIDTH}
+                    itemWidth={ITEM_WIDTH}
+                    onSnapToItem={(index) => setIndex(index)}
+                    useScrollView={true}
+                />
+        {/* <ImageBackground source={require('../../screen_images/images/learning_backgroud.png')} style={styles.container}>
             <View style={styles.scrollContainer}>
                 <ScrollView
                     horizontal={true}
@@ -79,15 +132,7 @@ const Courses = ({navigation}) => {
                                                     </Button>
                                                 </View>
 
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            )
-                        })
-                    }
-                </ScrollView>
-            </View>
+            </View> */}
             {/* <View style={styles.indicatorContainer}>
                 {images.map((image, imageIndex) => {
                     const width = scrollX.interpolate({
@@ -107,6 +152,7 @@ const Courses = ({navigation}) => {
                     );
                 })}
             </View> */}
+            </View>
             <SafeAreaView>
                 <StatusBar
                     backgroundColor='#072A52'
@@ -121,13 +167,21 @@ const Courses = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        // padding: 30,
+        justifyContent: 'space-evenly'
+
+
     },
     scrollContainer: {
-        height: 300,
+        // marginTop: 30,
+        height: 250,
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
+        padding: 1,
+
+
     },
     card: {
         flex: 1,
@@ -136,17 +190,20 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         overflow: "hidden",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+
+
     },
     innerCard1: {
         borderColor: 'rgba(0,0,0,0.1)',
         borderWidth: 1,
         borderRadius: 15,
-        height: '100%',
-        width: '80%',
+        height: '90%',
+        width: '70%',
         marginLeft: 'auto',
         marginRight: 'auto',
         flexDirection: 'row',
+
     },
     innerCrad2: {
         borderRadius: 15,
@@ -154,6 +211,7 @@ const styles = StyleSheet.create({
         // marginTop : '1%',
         marginLeft: '-5%',
         // marginTop : '1%'
+
     },
     innercard3: {
         justifyContent: 'space-around',

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, StatusBar, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, View,Text, SafeAreaView, StatusBar, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native'
 import { Form, Item, Input, Icon, Radio, Content, ListItem, Button } from 'native-base'
 import axios from 'axios';
-
 
 function Registration({ navigation }) {
 
@@ -92,7 +91,7 @@ function Registration({ navigation }) {
                     </View>
                 </View>
                 <View style={styles.form__mainRow1}>
-                    <View style={styles.navbarText1}>
+                    <View style={styles.navbarText1}> 
                         <Content>
                             <ListItem>
                                 <Text style={{ fontWeight: 'bold', fontSize: 16 }}>Gender </Text>
@@ -108,7 +107,7 @@ function Registration({ navigation }) {
                     <View style={styles.navbarText1}>
                         <Item rounded style={{ backgroundColor: '#072A52' }}>
                             <Button transparent style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-                                <TouchableOpacity onPress={()=>navigation.navigate('Courses')}>
+                                <TouchableOpacity onPress={()=>navigation.navigate('Otp')}>
                                     <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>CREATE ACCOUNT</Text>
                                 </TouchableOpacity>
                             </Button>
