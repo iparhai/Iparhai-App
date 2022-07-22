@@ -109,7 +109,7 @@ function Registration({ navigation }) {
                     </View>
                 </View>
                 <View style={styles.form__mainRow1}>
-                    <View style={styles.navbarText1}>
+                    <View style={styles.navbarText1}> 
                         <Content>
                             <ListItem>
                                 <Text style={{ fontWeight: 'bold', fontSize: 16 }}>Gender </Text>
